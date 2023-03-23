@@ -1,10 +1,18 @@
 package org.example;
 
-import org.example.Radio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class RadioTest {
+
+    @Test
+    public void shouldSizeStation() {
+        Radio cond = new Radio(29);
+
+        Assertions.assertEquals(29, cond.getMaxStation());
+        Assertions.assertEquals(0, cond.getMinStation());
+        Assertions.assertEquals(0, cond.getCurrentStation());
+    }
 
     @Test
     public void shouldSetStation() {
