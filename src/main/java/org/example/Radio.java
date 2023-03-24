@@ -1,89 +1,66 @@
 package org.example;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@Data
+
 public class Radio {
-    private int maxStation = 9;
-    private int minStation = 0;
-    private int currentStation = minStation;
+    private int currentStation = 10;
+    private int maxRadioStation = 10;
+    private int minRadioStation = 0;
+    private int currentVolume;
+    private int maxVolume = 100;
+    private int minVolume = 0;
 
-    public Radio(int size) {
-        maxStation = minStation + size;
+
+    public Radio(int generateNewStation) {
+        this.currentStation = generateNewStation;
+        maxRadioStation = generateNewStation - 1;
     }
 
-    public Radio() {
-
-    }
-
-    public int getCurrentStation() {
-        return currentStation;
-    }
-
-    public int getMaxStation() {
-        return maxStation;
-    }
-
-    public int getMinStation() {
-        return minStation;
-    }
-
-    public void setCurrentStation(int newCurrentStation) {
-        if (newCurrentStation < minStation) {
-            return;
+    public void setCurrentStation(int currentStation) {
+        if (currentStation > maxRadioStation) {
+            currentStation = minRadioStation;
         }
-        if (newCurrentStation > maxStation) {
-            return;
+        if (currentStation < minRadioStation) {
+            currentStation = maxRadioStation;
         }
-        currentStation = newCurrentStation;
+        this.currentStation = currentStation;
     }
 
-    public void nextStation() {
-        if (currentStation < maxStation) {
-            currentStation = currentStation + 1;
+    public void pressNextStation() {
+        if (currentStation >= maxRadioStation) {
+            setCurrentStation(minRadioStation);
         } else {
-            currentStation = minStation;
+            setCurrentStation(currentStation + 1);
         }
     }
 
-    public void prevStation() {
-        if (currentStation > minStation) {
-            currentStation = currentStation - 1;
+    public void pressPrevStation() {
+        if (currentStation <= minRadioStation) {
+            setCurrentStation(maxRadioStation);
         } else {
-            currentStation = maxStation;
+            setCurrentStation(currentStation - 1);
         }
     }
 
-    private int currentVolume = 0;
-
-    public int getCurrentVolume() {
-        return currentVolume;
-    }
-
-    public void setCurrentVolume(int newCurrentVolume) {
-        if (newCurrentVolume < 0) {
-            return;
+    public void setCurrentVolume(int currentVolume) {
+        if (currentVolume > maxVolume) {
+            currentVolume = minVolume;
         }
-        if (newCurrentVolume > 100) {
-            return;
+        if (currentVolume < minVolume) {
+            currentVolume = maxVolume;
         }
-        currentVolume = newCurrentVolume;
+        this.currentVolume = currentVolume;
     }
 
-    public void setToMinVolume() {
-        currentVolume = 0;
+    public void pressVolumeUp() {
+        setCurrentVolume(currentVolume + 1);
     }
 
-    public void setToMaxVolume() {
-        currentVolume = 100;
-    }
-
-    public void increaseVolume() {
-        if (currentVolume < 100) {
-            currentVolume = currentVolume + 1;
-        }
-    }
-
-    public void decreaseVolume() {
-        if (currentVolume > 0) {
-            currentVolume = currentVolume - 1;
-        }
+    public void pressVolumeDown() {
+        setCurrentVolume(currentVolume - 1);
     }
 }
